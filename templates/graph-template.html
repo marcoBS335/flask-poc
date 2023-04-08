@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Measurement graphs</title>
+</head>
+ 
+<body>
+    <form method="POST" action="{{ url_for('welcome_page') }}">
+        <button type="submit">Back to main page</button>
+    </form>
+
+    <div style="height: 50vh; width: 100%;">
+        <canvas id="voltageChart"></canvas>
+    </div>
+
+    <div style="height: 50vh; width: 100%; margin-top: 5vh;">
+        <canvas id="capacityChart"></canvas>
+    </div>
+
+    <div style="height: 50vh; width: 100%; margin-top: 5vh;">
+        <canvas id="powerChart"></canvas>
+    </div>
+
+    <div style="height: 50vh; width: 100%; margin-top: 5vh;">
+        <canvas id="tempChart"></canvas>
+    </div>
+ 
+    <script>
+        const time_data = {{ time | tojson }};
+        const voltage_data = {{ voltage | tojson }};
+        const capacity_data = {{ capacity | tojson }};
+        const power_data = {{ power | tojson }};
+        const tempBattery_data = {{ tempBattery | tojson }};
+        const tempRadiator_data = {{ tempRadiator | tojson }};
+ 
+        const data1 = {
+            labels: time_data,
+            datasets: [{
+                label: 'Voltage',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(204, 0, 0)',
+                data:voltage_data,
+            }]
+        };
+
+        const data2 = {
+            labels: time_data,
+            datasets: [{
+                label: 'Capacity',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(0, 102, 204)',
+                data:capacity_data,
+            }]
+        };
+
+        const data3 = {
+            labels: time_data,
+            datasets: [{
+                label: 'Power',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(0, 204, 0)',
+                data:power_data,
+            }]
+        };
+
+        const data4 = {
+            labels: time_data,
+            datasets: [{
+                label: 'Battery temperature',
+                backgroundColor: 'rgb(255, 9, 132)',
+                borderColor: 'rgb(255, 128, 0)',
+                data:tempBattery_data,
+            },
+            {
+                label: 'Radiator temperature',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 255, 0)',
+                data:tempRadiator_data,
+            }
+        ]
+        };
+ 
+        const config1 = {
+            type: 'line',
+            data: data1,
+            options: { 
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        title: {
+                            display: true,
+                            text: "U(V)"
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: "Time(s)"
+                        }
+                    }
+                } 
+            }
+        };
+
+        const config2 = {
+            type: 'line',
+            data: data2,
+            options: { 
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        title: {
+                            display: true,
+                            text: "C(mAh)"
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: "Time(s)"
+                        }
+                    }
+                } 
+            }
+        };
+
+        const config3 = {
+            type: 'line',
+            data: data3,
+            options: { 
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        title: {
+                            display: true,
+                            text: "P(W)"
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: "Time(s)"
+                        }
+                    }
+                } 
+            }
+        };
+
+        const config4 = {
+            type: 'line',
+            data: data4,
+            options: { 
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        title: {
+                            display: true,
+                            text: "T(°C)"
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: "Time(s)"
+                        }
+                    }
+                } 
+            }
+        };
+ 
+        const voltageChart = new Chart(
+            document.getElementById('voltageChart'),
+            config1
+        );
+
+        const capacityChart = new Chart(
+            document.getElementById('capacityChart'),
+            config2
+        );
+
+        const powerChart = new Chart(
+            document.getElementById('powerChart'),
+            config3
+        );
+
+        const tempChart = new Chart(
+            document.getElementById('tempChart'),
+            config4
+        );
+ 
+    </script>
+</body>
+</html>

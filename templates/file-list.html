@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Welcome page</title>
+</head>
+
+<body>
+    <label for="file">Choose a file:</label>
+
+    <form method="POST" action="{{ url_for('load_selected_file') }}">
+        <select name="Filename" id="filename">
+            {% for item in fileName %}
+                <option value="{{ item[0] }}">{{ item[0] }} <i>modified on:</i> {{ item[1] }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Show graphs</button>
+    </form>
+</body>
+</html>
